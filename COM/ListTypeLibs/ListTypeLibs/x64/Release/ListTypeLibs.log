@@ -1,8 +1,12 @@
-﻿  ListTypeLibs.cpp
-C:\Users\guillaume\Tools\Windows-Initial-Access\COM\ListTypeLibs\ListTypeLibs\ListTypeLibs.cpp(456,9): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+﻿  JSON.cpp
+  JSONValue.cpp
+  ListTypeLibs.cpp
+C:\Users\guillaume\Tools\Windows-Initial-Access\COM\ListTypeLibs\ListTypeLibs\ListTypeLibs.cpp(512,9): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+  TypeLib.cpp
+  VariantHelper.cpp
   Generating code
-  2 of 558 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    28 functions had inline decision re-evaluated but remain unchanged
+  174 of 560 functions (31.1%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    30 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ListTypeLibs.vcxproj -> C:\Users\guillaume\Tools\Windows-Initial-Access\COM\ListTypeLibs\x64\Release\ListTypeLibs.exe

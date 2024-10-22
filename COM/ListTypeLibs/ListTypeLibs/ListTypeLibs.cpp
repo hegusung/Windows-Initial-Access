@@ -315,7 +315,43 @@ std::wstring GetTypeLibPathFromRegistry(const std::wstring& typelibGUID, const s
     return typelibPath;
 }
 
-JSONValue* list_CLSIDs() 
+std::wstring PrintCOMProgID(const std::wstring& clsidKeyName) {
+    HKEY hKey;
+    std::wstring classKey = L"CLSID\\" + clsidKeyName + L"\\ProgID";
+    std::wstring comObjectName;
+
+    if (RegOpenKeyEx(HKEY_CLASSES_ROOT, classKey.c_str(), 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        WCHAR name[256];
+        DWORD nameSize = sizeof(name);
+        if (RegQueryValueEx(hKey, nullptr, nullptr, nullptr, (LPBYTE)name, &nameSize) == ERROR_SUCCESS) {
+            comObjectName = name;
+        }
+        RegCloseKey(hKey);
+    }
+
+    return comObjectName;
+}
+
+std::wstring PrintCOMVersionIndependantProgID(const std::wstring& clsidKeyName) {
+    HKEY hKey;
+    std::wstring classKey = L"CLSID\\" + clsidKeyName + L"\\VersionIndependentProgID";
+    std::wstring comObjectName;
+
+    if (RegOpenKeyEx(HKEY_CLASSES_ROOT, classKey.c_str(), 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        WCHAR name[256];
+        DWORD nameSize = sizeof(name);
+        if (RegQueryValueEx(hKey, nullptr, nullptr, nullptr, (LPBYTE)name, &nameSize) == ERROR_SUCCESS) {
+            comObjectName = name;
+        }
+        RegCloseKey(hKey);
+    }
+
+    return comObjectName;
+}
+
+
+
+JSONValue* list_CLSIDs()
 {
     JSONArray clsid_info_array;
 
@@ -338,6 +374,26 @@ JSONValue* list_CLSIDs()
                 if (!comObjectName.empty()) {
 
                     clsid_info[L"Name"] = new JSONValue(comObjectName);
+                    //wprintf(L"  COM Object Name: %s\n", comObjectName.c_str());
+                }
+                else {
+                    //wprintf(L"  COM Object Name: Not found\n");
+                }
+
+                std::wstring comProgID = PrintCOMProgID(clsidKeyName);
+                if (!comProgID.empty()) {
+
+                    clsid_info[L"ProgID"] = new JSONValue(comProgID);
+                    //wprintf(L"  COM Object Name: %s\n", comObjectName.c_str());
+                }
+                else {
+                    //wprintf(L"  COM Object Name: Not found\n");
+                }
+
+                std::wstring comVersionIndependantProgID = PrintCOMVersionIndependantProgID(clsidKeyName);
+                if (!comVersionIndependantProgID.empty()) {
+
+                    clsid_info[L"VersionIndependantProgID"] = new JSONValue(comVersionIndependantProgID);
                     //wprintf(L"  COM Object Name: %s\n", comObjectName.c_str());
                 }
                 else {
@@ -397,7 +453,7 @@ JSONValue* list_CLSIDs()
                     clsid_info_array.push_back(new JSONValue(clsid_info));
                 }
                 */
-                    
+
             }
             clsidKeyNameSize = sizeof(clsidKeyName) / sizeof(clsidKeyName[0]);
             index++;
@@ -413,7 +469,7 @@ JSONValue* list_CLSIDs()
     return new JSONValue(clsid_info_array);
 }
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
     if (argc == 2) {
         CoInitialize(nullptr); // Initialize COM library
